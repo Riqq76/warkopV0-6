@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Warkop51 - Saran & Kritik</title> 
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="asset/script.js"></script>
+
+
+</head>
+<body class="bg-coffee-bg font-sans">
+    
+    <div id="main-app">
+        <!-- ===== Navbar (Header) - Konsisten dengan file lain ===== -->
+        <nav class="fixed-navbar fixed top-0 left-0 w-full bg-coffee-dark shadow-xl z-50">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="flex items-center justify-between h-16">
+                    
+                    <!-- Logo dan Keranjang Kecil -->
+                    <div class="flex items-center">
+                        <span class="text-2xl font-extrabold text-coffee-accent">Warkop51 ☕</span>
+                        <span class="ml-6 text-coffee-light text-sm hidden sm:inline">Keranjang Anda: <span id="cart-count-nav" class="font-bold text-white">0</span> item</span>
+                    </div>
+
+                    <!-- Menu Desktop -->
+                    <div id="desktop-menu" class="hidden sm:flex space-x-4 items-center">
+                        <a href="index.html" class="nav-link text-white hover:text-coffee-accent transition duration-150 font-medium">Beranda</a>
+                        <a href="tentang.html" class="nav-link text-white hover:text-coffee-accent transition duration-150 font-medium">Tentang Kami</a>
+                        <a href="menu.html" class="nav-link text-white hover:text-coffee-accent transition duration-150 font-medium">Menu Kami</a>
+                        <!-- Penanda Halaman Aktif -->
+                        <a href="kritik.html" class="nav-link text-coffee-accent transition duration-150 font-medium border-b-2 border-coffee-accent">Saran & Kritik</a>
+                        <a href="kontak.html" class="nav-link text-white hover:text-coffee-accent transition duration-150 font-medium">Kontak</a>
+                        <a href="checkout.html" class="nav-link text-white hover:bg-green-600 transition duration-150 font-medium bg-green-500 rounded-full px-3 py-1 ml-4">Keranjang</a>
+                        <button id="logout-button" class="bg-red-500 hover:bg-red-600 text-white text-sm py-2 px-4 rounded-full ml-4 shadow-md transition duration-200">Keluar</button>
+                    </div>
+
+                    <!-- Tombol Hamburger Mobile -->
+                    <div class="flex sm:hidden">
+                        <button id="menu-toggle" type="button" class="inline-flex items-center justify-center p-2 rounded-md text-coffee-light hover:text-white hover:bg-coffee-dark/70 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-coffee-accent" aria-expanded="false" aria-label="Toggle main menu">
+                            <svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+                                <path id="open-icon" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7" />
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Menu Mobile (Disembunyikan secara default) -->
+            <div class="sm:hidden hidden" id="mobile-menu">
+                <div class="px-2 pt-2 pb-3 space-y-1 flex flex-col items-start">
+                    <a href="index.html" class="nav-link w-full text-left text-white hover:bg-coffee-dark/50 block px-3 py-2 rounded-md text-base font-medium">Beranda</a>
+                    <a href="tentang.html" class="nav-link w-full text-left text-white hover:bg-coffee-dark/50 block px-3 py-2 rounded-md text-base font-medium">Tentang Kami</a>
+                    <a href="menu.html" class="nav-link w-full text-left text-white hover:bg-coffee-dark/50 block px-3 py-2 rounded-md text-base font-medium">Menu Kami</a>
+                    <a href="kritik.html" class="nav-link w-full text-left text-coffee-accent bg-coffee-dark/50 block px-3 py-2 rounded-md text-base font-medium">Saran & Kritik</a>
+                    <a href="kontak.html" class="nav-link w-full text-left text-white hover:bg-coffee-dark/50 block px-3 py-2 rounded-md text-base font-medium">Kontak</a>
+                    <a href="checkout.html" class="nav-link w-full text-center text-white bg-green-500 hover:bg-green-600 block px-3 py-2 rounded-md text-base font-medium mt-2">Keranjang (Lihat)</a>
+                    <button id="logout-button-mobile" class="w-full text-center bg-red-500 hover:bg-red-600 text-white text-base py-2 px-4 rounded-md shadow-md transition duration-200 mt-2">Keluar</button>
+                </div>
+            </div>
+        </nav>
+
+        <!-- ===== Konten Utama Saran & Kritik (Sesuai permintaan user) ===== -->
+        <main class="pt-24 pb-12">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="bg-white p-8 md:p-12 rounded-xl shadow-xl max-w-2xl mx-auto">
+                    <h2 class="text-4xl font-bold text-coffee-dark mb-6 text-center">Saran & Kritik 📝</h2>
+                    <p class="text-gray-600 mb-8 text-center">Kami sangat menghargai masukan Anda. Setiap kritik membangun dan saran positif akan membantu Warkop51 menjadi lebih baik.</p>
+                    
+                    <form id="complaint-form" class="space-y-6">
+                        <div>
+                            <label for="complaint-text" class="block text-gray-700 font-semibold mb-2">Pesan Anda</label>
+                            <textarea id="complaint-text" rows="5" required 
+                                class="w-full p-3 border-2 border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-coffee-accent focus:border-coffee-accent transition duration-150" 
+                                placeholder="Jelaskan masukan Anda di sini..."></textarea>
+                        </div>
+                        <div>
+                            <label for="complaint-name" class="block text-gray-700 font-semibold mb-2">Nama (Opsional)</label>
+                            <input type="text" id="complaint-name" 
+                                class="w-full p-3 border-2 border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-coffee-accent focus:border-coffee-accent transition duration-150" 
+                                placeholder="Masukkan nama atau anonim">
+                        </div>
+                        <button type="submit" id="submit-button" class="bg-coffee-accent hover:bg-orange-600 text-white font-bold py-3 rounded-lg w-full shadow-lg transition duration-200 transform hover:scale-[1.01]">
+                            Kirim Masukan
+                        </button>
+                        <p id="complaint-status" class="text-green-600 text-center mt-4 hidden font-semibold text-lg p-3 bg-green-50 rounded-lg border border-green-200">
+                            Terima kasih! Masukan Anda telah diterima dan akan kami tindak lanjuti segera.
+                        </p>
+                    </form>
+                </div>
+            </div>
+        </main>
+
+        <!-- ===== Footer - Konsisten dengan file lain ===== -->
+        <footer class="bg-coffee-dark text-coffee-light text-center p-6 mt-12 shadow-inner">
+            <p>© 2025 Warkop51. Dibuat dengan cinta dan secangkir kopi hangat.</p>
+        </footer>
+    </div>
+    
+    <script>
+        // --- UTILITY FUNCTIONS ---
+        
+        // Pengganti ALERT (Wajib untuk lingkungan ini)
+        function notify(message) {
+            console.log("NOTIFIKASI:", message);
+            const notificationBox = document.createElement('div');
+            notificationBox.textContent = message;
+            notificationBox.className = 'fixed bottom-5 right-5 bg-coffee-dark text-white p-3 rounded-lg shadow-xl z-50 transition-opacity duration-300';
+            document.body.appendChild(notificationBox);
+            setTimeout(() => {
+                notificationBox.classList.add('opacity-0');
+                notificationBox.addEventListener('transitionend', () => notificationBox.remove());
+            }, 3000);
+        }
+
+        // Logika Toggle Menu Mobile
+        function setupMobileMenu() {
+            const menuButton = document.getElementById('menu-toggle');
+            const mobileMenu = document.getElementById('mobile-menu');
+
+            if (menuButton && mobileMenu) {
+                menuButton.addEventListener('click', () => {
+                    const isExpanded = menuButton.getAttribute('aria-expanded') === 'true';
+                    menuButton.setAttribute('aria-expanded', String(!isExpanded));
+                    mobileMenu.classList.toggle('hidden');
+                });
+            }
+        }
+
+        // --- FORM LOGIC ---
+        
+        function setupFormSubmission() {
+            const form = document.getElementById('complaint-form');
+            const statusMessage = document.getElementById('complaint-status');
+            const submitButton = document.getElementById('submit-button');
+
+            if (!form) return;
+
+            form.addEventListener('submit', function(event) {
+                event.preventDefault(); // Mencegah pengiriman formulir default
+
+                const message = document.getElementById('complaint-text').value;
+                const name = document.getElementById('complaint-name').value || 'Anonim';
+                
+                // Menonaktifkan tombol saat proses
+                submitButton.textContent = 'Mengirim...';
+                submitButton.disabled = true;
+                submitButton.classList.add('opacity-50');
+
+                // Simulasi pengiriman data (Anda bisa mengganti ini dengan panggilan Firebase/API di masa depan)
+                setTimeout(() => {
+                    console.log(`[Saran Diterima] Dari: ${name}, Pesan: "${message.substring(0, 50)}..."`);
+                    
+                    // Tampilkan status sukses
+                    statusMessage.classList.remove('hidden');
+                    
+                    // Reset formulir setelah diterima
+                    form.reset(); 
+
+                    // Kembalikan tombol ke keadaan semula
+                    submitButton.textContent = 'Kirim Masukan';
+                    submitButton.disabled = false;
+                    submitButton.classList.remove('opacity-50');
+
+                    notify('Masukan Anda telah berhasil dikirim!');
+
+                    // Sembunyikan pesan status setelah beberapa saat
+                    setTimeout(() => {
+                        statusMessage.classList.add('hidden');
+                    }, 5000);
+                    
+                }, 1500); // Simulasi delay 1.5 detik
+            });
+        }
+        
+        // Update jumlah item keranjang di navbar (Dummy)
+        function updateCartCount() {
+            // Asumsi cart disimpan di localStorage oleh halaman Menu.html
+            const cart = JSON.parse(localStorage.getItem('warkop51_cart')) || [];
+            const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
+            
+            const cartCountNav = document.getElementById('cart-count-nav');
+            if (cartCountNav) {
+                cartCountNav.textContent = totalItems;
+            }
+        }
+
+        // --- INISIALISASI ---
+        document.addEventListener('DOMContentLoaded', () => {
+            console.log('Warkop51 Saran & Kritik Page Loaded');
+            
+            setupMobileMenu();
+            setupFormSubmission();
+            updateCartCount();
+
+            // Dummy Logout Handler
+            const handleLogout = () => {
+                console.log('User logged out (Dummy action)');
+                notify('Anda telah keluar.');
+            };
+
+            // Hubungkan tombol Logout Desktop dan Mobile
+            document.getElementById('logout-button')?.addEventListener('click', handleLogout);
+            document.getElementById('logout-button-mobile')?.addEventListener('click', handleLogout);
+        });
+    </script>
+</body>
+</html>

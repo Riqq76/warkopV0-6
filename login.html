@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Warkop51 - Masuk Akun</title> 
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        // Konfigurasi warna kustom (SAMA DI SEMUA FILE)
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'coffee-dark': '#4b3832', // Cokelat gelap (Navbar, Footer)
+                        'coffee-light': '#a38b7e', // Cokelat muda (Teks sekunder)
+                        'coffee-accent': '#ff9f1c', // Oranye/Kuning (Aksen, CTA)
+                        'coffee-bg': '#f5f5f5', // Latar belakang (Hampir putih)
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    },
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-coffee-bg font-sans">
+    
+    <div id="main-app" class="min-h-screen flex flex-col justify-between">
+        <!-- Minimal Navbar untuk Halaman Login/Auth -->
+        <nav class="bg-coffee-dark shadow-xl">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center">
+                <span class="text-2xl font-extrabold text-coffee-accent">Warkop51 ☕</span>
+            </div>
+        </nav>
+
+        <!-- Login Form Container -->
+        <main class="flex-grow flex items-center justify-center p-4">
+            <div class="w-full max-w-md bg-white p-8 md:p-10 rounded-xl shadow-2xl border-t-4 border-coffee-accent">
+                <h2 class="text-3xl font-bold text-coffee-dark mb-2 text-center">Selamat Datang Kembali</h2>
+                <p class="text-center text-gray-500 mb-8">Masuk untuk melanjutkan pesanan Anda.</p>
+                
+                <form id="login-form" class="space-y-6">
+                    <div>
+                        <label for="email" class="block text-sm font-medium text-gray-700 mb-1">Email</label>
+                        <input type="email" id="email" required placeholder="Masukkan email Anda" value="test@warkop.com"
+                            class="w-full p-3 border-2 border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-coffee-accent focus:border-coffee-accent transition duration-150">
+                    </div>
+                    
+                    <div>
+                        <label for="password" class="block text-sm font-medium text-gray-700 mb-1">Kata Sandi</label>
+                        <input type="password" id="password" required placeholder="Minimal 6 karakter" value="password"
+                            class="w-full p-3 border-2 border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-coffee-accent focus:border-coffee-accent transition duration-150">
+                    </div>
+                    
+                    <button type="submit" id="login-button"
+                        class="bg-coffee-accent hover:bg-coffee-accent/90 text-white font-bold py-3 rounded-lg w-full shadow-lg transition duration-200 transform hover:scale-[1.01]">
+                        Masuk
+                    </button>
+                </form>
+
+                <div class="mt-6 text-center">
+                    <p class="text-gray-500 mb-3">Belum punya akun?</p>
+                    <button id="register-button"
+                        class="text-coffee-dark hover:text-coffee-accent font-semibold text-sm transition duration-150 border border-coffee-light/50 p-2 rounded-lg w-full bg-coffee-bg hover:bg-white">
+                        Daftar Sekarang (Simulasi)
+                    </button>
+                </div>
+
+                <p id="auth-status" class="text-red-500 text-center mt-4 hidden text-sm"></p>
+            </div>
+        </main>
+
+        <!-- Footer -->
+        <footer class="bg-coffee-dark text-coffee-light text-center p-4 shadow-inner">
+            <p>© 2025 Warkop51. Dibuat dengan cinta.</p>
+        </footer>
+    </div>
+
+    <script>
+        // --- UTILITY FUNCTIONS ---
+        
+        function notify(message, isError = false) {
+            console.log("NOTIFIKASI:", message);
+            const notificationBox = document.createElement('div');
+            notificationBox.textContent = message;
+            notificationBox.className = `fixed bottom-5 right-5 ${isError ? 'bg-red-600' : 'bg-coffee-dark'} text-white p-3 rounded-lg shadow-xl z-50 transition-opacity duration-300`;
+            document.body.appendChild(notificationBox);
+            setTimeout(() => {
+                notificationBox.classList.add('opacity-0');
+                notificationBox.addEventListener('transitionend', () => notificationBox.remove());
+            }, 3000);
+        }
+
+        // --- AUTH LOGIC (DUMMY) ---
+        
+        const DUMMY_CREDENTIALS = {
+            email: 'test@warkop.com',
+            password: 'password'
+        };
+
+        function handleLogin(event) {
+            event.preventDefault();
+            
+            const emailInput = document.getElementById('email');
+            const passwordInput = document.getElementById('password');
+            const statusMessage = document.getElementById('auth-status');
+            const loginButton = document.getElementById('login-button');
+
+            const email = emailInput.value;
+            const password = passwordInput.value;
+
+            loginButton.textContent = 'Memuat...';
+            loginButton.disabled = true;
+
+            statusMessage.classList.add('hidden');
+
+            setTimeout(() => {
+                if (email === DUMMY_CREDENTIALS.email && password === DUMMY_CREDENTIALS.password) {
+                    // Login Berhasil
+                    localStorage.setItem('warkop51_isAuthenticated', 'true');
+                    localStorage.setItem('warkop51_userEmail', email);
+
+                    notify('Login Berhasil! Mengalihkan ke Beranda...');
+                    
+                    // Arahkan ke Beranda setelah notifikasi muncul
+                    setTimeout(() => {
+                        window.location.href = 'index.html'; 
+                    }, 1000);
+
+                } else {
+                    // Login Gagal
+                    statusMessage.textContent = 'Email atau Kata Sandi salah. Silakan coba lagi.';
+                    statusMessage.classList.remove('hidden');
+                    notify('Login Gagal!', true);
+
+                    loginButton.textContent = 'Masuk';
+                    loginButton.disabled = false;
+                }
+            }, 1500); // Simulasi delay jaringan
+        }
+
+        function handleRegister() {
+            notify('Simulasi Pendaftaran: Fungsi pendaftaran telah dipanggil. Silakan login dengan akun uji coba.');
+        }
+
+        // --- INISIALISASI ---
+        document.addEventListener('DOMContentLoaded', () => {
+            console.log('Warkop51 Login Page Loaded');
+
+            // Cek apakah sudah login, jika ya, alihkan ke index.html
+            if (localStorage.getItem('warkop51_isAuthenticated') === 'true') {
+                console.log('Pengguna sudah terautentikasi. Mengalihkan ke index.html.');
+                window.location.href = 'index.html';
+                return;
+            }
+
+            const loginForm = document.getElementById('login-form');
+            const registerButton = document.getElementById('register-button');
+
+            if (loginForm) {
+                loginForm.addEventListener('submit', handleLogin);
+            }
+            if (registerButton) {
+                registerButton.addEventListener('click', handleRegister);
+            }
+        });
+    </script>
+</body>
+</html>

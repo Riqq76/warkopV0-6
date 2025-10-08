@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Warkop51 - Checkout</title> 
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="asset/script.js"></script>
+    <link rel="stylesheet" href="asset/checkout.css">
+</head>
+<body class="bg-coffee-bg font-sans">
+    
+    <div id="main-app">
+        <nav class="fixed-navbar fixed top-0 left-0 w-full bg-coffee-dark shadow-xl z-50">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="flex items-center justify-between h-16">
+                    <div class="flex items-center">
+                        <span class="text-2xl font-extrabold text-coffee-accent">Warkop51 ☕</span>
+                        <span class="ml-6 text-coffee-light text-sm hidden sm:inline">Keranjang Anda: <span id="cart-count-nav" class="font-bold text-white">0</span> item</span>
+                    </div>
+                    <div id="desktop-menu" class="hidden sm:flex space-x-4 items-center">
+                        <a href="index.html" class="nav-link text-white hover:text-coffee-accent transition duration-150 font-medium">Beranda</a>
+                        <a href="menu.html" class="nav-link text-white hover:text-coffee-accent transition duration-150 font-medium">Menu Kami</a>
+                        <a href="checkout.html" class="nav-link text-coffee-accent transition duration-150 font-medium bg-green-500 rounded-full px-3 py-1 ml-4 border-b-2 border-coffee-accent">Keranjang</a>
+                        <button id="logout-button" class="bg-red-500 hover:bg-red-600 text-white text-sm py-2 px-4 rounded-full ml-4 shadow-md transition duration-200">Keluar</button>
+                    </div>
+                    <div class="flex sm:hidden">
+                         </div>
+                </div>
+            </div>
+            </nav>
+
+        <main class="pt-24 pb-12">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="bg-white p-8 md:p-12 rounded-xl shadow-xl max-w-2xl mx-auto">
+                    
+                    <div id="checkout-flow">
+                        <h2 id="main-title" class="text-4xl font-bold text-coffee-dark mb-8 text-center">Konfirmasi Pesanan 🛒</h2>
+                        
+                        <div id="checkout-detail" class="mb-6 space-y-4">
+                            </div>
+
+                        <div id="total-summary" class="border-t-2 border-coffee-accent pt-4 mt-6 flex justify-between items-center hidden">
+                            <span class="text-xl font-bold text-coffee-dark">TOTAL PEMBAYARAN:</span>
+                            <span id="final-total-price" class="text-3xl font-extrabold text-green-600">Rp 0</span>
+                        </div>
+
+                        <div id="empty-cart-message" class="text-center p-8 border-2 border-gray-200 rounded-xl bg-coffee-bg hidden">
+                            <p class="text-xl text-coffee-dark font-semibold mb-4">Keranjang Anda Kosong 😢</p>
+                            <p class="text-gray-600">Silakan pilih menu favorit Anda terlebih dahulu.</p>
+                        </div>
+                        
+                        <form id="checkout-form" class="mt-8 space-y-6 hidden">
+                            <h3 class="text-2xl font-bold text-coffee-dark border-b pb-2">Informasi Pembayaran</h3>
+                            
+                            <div>
+                                <label for="pemesan-name" class="block text-gray-700 font-semibold mb-1">Nama Pemesan</label>
+                                <input type="text" id="pemesan-name" placeholder="Nama Pemesan" required 
+                                    class="w-full p-3 border-2 border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-coffee-accent focus:border-coffee-accent transition duration-150">
+                            </div>
+                            
+                            <div>
+                                <label for="payment-method" class="block text-gray-700 font-semibold mb-1">Metode Pembayaran</label>
+                                <select id="payment-method" required 
+                                    class="w-full p-3 border-2 border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-coffee-accent focus:border-coffee-accent transition duration-150">
+                                    <option value="">Pilih Metode Pembayaran</option>
+                                    <option>Cash (Tunai di Tempat)</option>
+                                    <option>QRIS</option>
+                                    <option>Transfer Bank</option>
+                                </select>
+                            </div>
+                            
+                            <button type="submit" id="confirm-button" 
+                                class="bg-green-600 hover:bg-green-700 text-white font-bold py-3 rounded-lg w-full shadow-lg transition duration-200 transform hover:scale-[1.01]">
+                                Konfirmasi Pembayaran
+                            </button>
+                        </form>
+                    </div>
+
+                    <a href="menu.html" id="back-to-menu-link" class="mt-8 w-full block text-center text-sm text-coffee-light hover:text-coffee-dark transition border-t pt-4">
+                        ← Kembali ke Menu
+                    </a>
+                </div>
+            </div>
+        </main>
+
+        <footer class="bg-coffee-dark text-coffee-light text-center p-6 mt-12 shadow-inner">
+            <p>© 2025 Warkop51. Dibuat dengan cinta dan secangkir kopi hangat.</p>
+        </footer>
+    </div>
+    
+    <script>
+        // State Aplikasi: Cart diambil dari localStorage
+        let cart = JSON.parse(localStorage.getItem('warkop51_cart')) || [];
+        
+        // --- UTILITY FUNCTIONS ---
+        function notify(message) {
+             // ... (Fungsi notifikasi) ...
+        }
+
+        function formatRupiah(number) {
+            return new Intl.NumberFormat('id-ID', {
+                style: 'currency',
+                currency: 'IDR',
+                minimumFractionDigits: 0
+            }).format(number);
+        }
+
+        function generateOrderId() {
+            const date = new Date();
+            const year = date.getFullYear().toString().slice(-2);
+            const month = (date.getMonth() + 1).toString().padStart(2, '0');
+            const day = date.getDate().toString().padStart(2, '0');
+            const time = date.getTime().toString().slice(-4);
+            return `WK51-${year}${month}${day}-${time}`;
+        }
+        
+        // ... (Fungsi saveCart, updateQuantity, removeItem - Sama) ...
+
+        function updateCartCountNav() {
+            const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
+            const cartCountNav = document.getElementById('cart-count-nav');
+            if (cartCountNav) {
+                cartCountNav.textContent = totalItems;
+            }
+            return totalItems;
+        }
+
+        function createCheckoutItem(item) {
+             // ... (Markup item keranjang - Sama) ...
+             const subtotal = item.price * item.quantity;
+
+            return `
+                <div class="flex items-center p-4 bg-coffee-bg rounded-lg shadow-sm border border-coffee-light/30">
+                    <img src="${item.image}" alt="${item.name}" 
+                        class="w-16 h-16 object-cover rounded-md mr-4"
+                        onerror="this.onerror=null;this.src='https://placehold.co/64x64/4b3832/ff9f1c?text=Menu';"
+                    >
+                    
+                    <div class="flex-grow">
+                        <h4 class="font-bold text-coffee-dark">${item.name}</h4>
+                        <p class="text-sm text-gray-600">${formatRupiah(item.price)} x ${item.quantity}</p>
+                    </div>
+
+                    <div class="flex items-center space-x-2 mr-4 min-w-[70px]">
+                        <button data-id="${item.id}" data-action="decrease" class="qty-btn text-lg font-bold w-6 h-6 rounded-full bg-gray-200 hover:bg-gray-300 transition duration-150">-</button>
+                        <span class="font-bold text-coffee-dark">${item.quantity}</span>
+                        <button data-id="${item.id}" data-action="increase" class="qty-btn text-lg font-bold w-6 h-6 rounded-full bg-gray-200 hover:bg-gray-300 transition duration-150">+</button>
+                    </div>
+
+                    <span class="text-lg font-bold text-coffee-accent min-w-[100px] text-right">${formatRupiah(subtotal)}</span>
+
+                    <button data-id="${item.id}" data-action="remove" class="remove-btn text-red-500 hover:text-red-700 ml-4 p-1 rounded-full hover:bg-red-100 transition duration-150" aria-label="Hapus item">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+                    </button>
+                </div>
+            `;
+        }
+
+        function renderCheckout() {
+            // ... (Logika renderCheckout - Sama) ...
+            const detailContainer = document.getElementById('checkout-detail');
+            const totalSummary = document.getElementById('total-summary');
+            const finalTotalDisplay = document.getElementById('final-total-price');
+            const checkoutFlow = document.getElementById('checkout-flow');
+            const emptyMessage = document.getElementById('empty-cart-message');
+
+            const totalItemsCount = updateCartCountNav();
+            const totalPrice = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+            
+            // ... (Logika tampilkan/sembunyikan elemen) ...
+
+            if (totalItemsCount === 0) {
+                // Keranjang Kosong
+                detailContainer.innerHTML = '';
+                totalSummary.classList.add('hidden');
+                document.getElementById('checkout-form').classList.add('hidden');
+                emptyMessage.classList.remove('hidden');
+                
+            } else {
+                // Keranjang Terisi
+                detailContainer.innerHTML = cart.map(createCheckoutItem).join('');
+                finalTotalDisplay.textContent = formatRupiah(totalPrice);
+                totalSummary.classList.remove('hidden');
+                document.getElementById('checkout-form').classList.remove('hidden');
+                emptyMessage.classList.add('hidden');
+
+                // Attach event listeners for quantity and remove buttons
+                document.querySelectorAll('.qty-btn').forEach(button => {
+                    button.addEventListener('click', (e) => {
+                        const id = parseInt(e.currentTarget.getAttribute('data-id'));
+                        const action = e.currentTarget.getAttribute('data-action');
+                        if (action === 'increase') updateQuantity(id, 1);
+                        if (action === 'decrease') updateQuantity(id, -1);
+                    });
+                });
+
+                document.querySelectorAll('.remove-btn').forEach(button => {
+                    button.addEventListener('click', (e) => {
+                        const id = parseInt(e.currentTarget.getAttribute('data-id'));
+                        removeItem(id);
+                    });
+                });
+            }
+        }
+        
+        // --- FORM SUBMISSION (Dimodifikasi untuk redirect) ---
+        
+        function setupFormSubmission() {
+            const form = document.getElementById('checkout-form');
+            const confirmButton = document.getElementById('confirm-button');
+
+            if (!form) return;
+
+            form.addEventListener('submit', function(event) {
+                event.preventDefault(); 
+                
+                if (cart.length === 0) {
+                    notify("Keranjang kosong, tidak bisa checkout.");
+                    return;
+                }
+
+                confirmButton.textContent = 'Memproses...';
+                confirmButton.disabled = true;
+                confirmButton.classList.add('opacity-50');
+
+                // 1. Ambil data pesanan (SEBELUM CART DIHAPUS)
+                const itemsToOrder = [...cart]; 
+                const pemesan = document.getElementById('pemesan-name').value;
+                const metode = document.getElementById('payment-method').value;
+                const total = itemsToOrder.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+                
+                if (!pemesan || !metode) {
+                    notify("Mohon lengkapi semua data pembayaran.");
+                    confirmButton.textContent = 'Konfirmasi Pembayaran';
+                    confirmButton.disabled = false;
+                    confirmButton.classList.remove('opacity-50');
+                    return;
+                }
+
+                const orderData = {
+                    orderId: generateOrderId(), 
+                    pemesan: pemesan,
+                    metodePembayaran: metode,
+                    totalHarga: total,
+                    items: itemsToOrder,
+                    timestamp: new Date().toISOString()
+                };
+
+                // 2. Simulasi Pengiriman Data Pesanan
+                setTimeout(() => {
+                    console.log("[PESANAN BARU DIKONFIRMASI]", orderData);
+                    
+                    // 3. Simpan data pesanan ke sessionStorage untuk halaman struk
+                    sessionStorage.setItem('last_order_data', JSON.stringify(orderData));
+                    
+                    // 4. Kosongkan keranjang di localStorage
+                    localStorage.removeItem('warkop51_cart');
+                    
+                    // 5. Redirect ke halaman struk
+                    window.location.href = 'receipt.html';
+
+                }, 2000); // Simulasi delay 2 detik
+            });
+        }
+
+        // ... (Fungsi setupMobileMenu dan Inisialisasi - Sama) ...
+        document.addEventListener('DOMContentLoaded', () => {
+             // ...
+             renderCheckout();
+             setupFormSubmission();
+             // ...
+        });
+    </script>
+</body>
+</html>

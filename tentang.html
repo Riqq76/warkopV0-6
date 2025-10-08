@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Warkop51 - Tentang Kami</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="asset/about.css">
+  <script src="asset/script.js"></script>
+  
+</head>
+
+<body class="bg-coffee-bg font-sans">
+  <div id="main-app">
+    
+    <!-- ===== Navbar ===== -->
+    <nav class="fixed top-0 left-0 w-full bg-coffee-dark shadow-xl z-50">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex items-center justify-between h-16">
+
+          <!-- Logo dan Keranjang -->
+          <div class="flex items-center">
+            <span class="text-2xl font-extrabold text-coffee-accent">Warkop51 ☕</span>
+            <span class="ml-6 text-coffee-light text-sm hidden sm:inline">
+              Keranjang Anda: <span id="cart-count" class="font-bold text-white">0</span> item
+            </span>
+          </div>
+
+          <!-- Menu Desktop -->
+          <div id="desktop-menu" class="hidden sm:flex space-x-4 items-center">
+            <a href="index.html" class="text-white hover:text-coffee-accent font-medium">Beranda</a>
+            <a href="tentang.html" class="text-coffee-accent font-medium border-b-2 border-coffee-accent">Tentang Kami</a>
+            <a href="menu.html" class="text-white hover:text-coffee-accent font-medium">Menu Kami</a>
+            <a href="kritik.html" class="text-white hover:text-coffee-accent font-medium">Saran & Kritik</a>
+            <a href="kontak.html" class="text-white hover:text-coffee-accent font-medium">Kontak</a>
+            <a href="checkout.html" class="bg-green-500 hover:bg-green-600 text-white px-3 py-1 rounded-full ml-4 font-medium">Keranjang</a>
+            <button id="logout-button" class="bg-red-500 hover:bg-red-600 text-white py-2 px-4 rounded-full ml-4 shadow-md">Keluar</button>
+          </div>
+
+          <!-- Tombol Hamburger Mobile -->
+          <div class="flex sm:hidden">
+            <button id="menu-toggle" type="button" class="p-2 rounded-md text-coffee-light hover:text-white hover:bg-coffee-dark/70 focus:outline-none focus:ring-2 focus:ring-coffee-accent" aria-expanded="false" aria-label="Toggle main menu">
+              <svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path id="open-icon" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7" />
+              </svg>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Menu Mobile -->
+      <div class="sm:hidden hidden" id="mobile-menu">
+        <div class="px-2 pt-2 pb-3 space-y-1 flex flex-col items-start">
+          <a href="index.html" class="w-full text-left text-white hover:bg-coffee-dark/50 block px-3 py-2 rounded-md font-medium">Beranda</a>
+          <a href="tentang.html" class="w-full text-left text-coffee-accent bg-coffee-dark/50 block px-3 py-2 rounded-md font-medium">Tentang Kami</a>
+          <a href="menu.html" class="w-full text-left text-white hover:bg-coffee-dark/50 block px-3 py-2 rounded-md font-medium">Menu Kami</a>
+          <a href="kritik.html" class="w-full text-left text-white hover:bg-coffee-dark/50 block px-3 py-2 rounded-md font-medium">Saran & Kritik</a>
+          <a href="kontak.html" class="w-full text-left text-white hover:bg-coffee-dark/50 block px-3 py-2 rounded-md font-medium">Kontak</a>
+          <a href="checkout.html" class="w-full text-center text-white bg-green-500 hover:bg-green-600 block px-3 py-2 rounded-md font-medium mt-2">Keranjang</a>
+          <button id="logout-button-mobile" class="w-full text-center bg-red-500 hover:bg-red-600 text-white py-2 px-4 rounded-md mt-2 shadow-md">Keluar</button>
+        </div>
+      </div>
+    </nav>
+
+    <!-- ===== Konten Utama ===== -->
+    <main class="pt-16 pb-12">
+      <!-- Hero Section -->
+      <section class="about-hero h-[40vh] flex items-center justify-center text-center shadow-lg mb-12">
+        <div class="hero-content max-w-4xl mx-auto p-8">
+          <h1 class="text-5xl sm:text-7xl font-extrabold text-white mb-4">Kisah Kami</h1>
+          <p class="text-xl sm:text-2xl text-coffee-bg font-light">Dari Biji ke Komunitas.</p>
+        </div>
+      </section>
+
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        
+        <!-- 1. Our Story -->
+        <section class="py-12 flex flex-col md:flex-row items-center gap-10">
+          <div class="md:w-1/2">
+            <h2 class="text-3xl font-bold text-coffee-dark mb-4 border-b-2 border-coffee-accent pb-2 inline-block">Awal Mula Warkop51</h2>
+            <p class="text-coffee-dark mb-4 text-lg">
+              Warkop51 lahir pada tahun 2020 dari mimpi sederhana: menciptakan tempat di mana kualitas kopi bertemu dengan kehangatan komunitas.
+            </p>
+            <p class="text-coffee-light italic">
+              Kami mulai dengan satu <em>roaster</em> kecil dan komitmen teguh untuk mendukung petani kopi lokal.
+            </p>
+          </div>
+
+          <div class="md:w-1/2">
+            <img src="img/warkop.jpeg"
+                 alt="Pendiri Warkop51 sedang menyangrai biji kopi"
+                 class="w-full h-auto object-cover rounded-2xl shadow-xl transform rotate-1 transition duration-500 hover:rotate-0"
+                 onerror="this.onerror=null;this.src='https://placehold.co/600x450/4b3832/f5f5f5?text=Error+Loading+Image';">
+          </div>
+        </section>
+
+        <div class="border-t border-coffee-light/30 my-10"></div>
+
+        <!-- 2. Values -->
+        <section class="py-12">
+          <h2 class="text-4xl font-extrabold text-center text-coffee-dark mb-10">Visi & Nilai Inti Kami</h2>
+
+          <div class="grid lg:grid-cols-3 gap-8 text-center">
+            <div class="bg-white p-8 rounded-xl shadow-2xl border-b-8 border-coffee-accent hover:bg-coffee-bg transition duration-300">
+              <div class="text-5xl text-coffee-accent mb-4">🇮🇩</div>
+              <h3 class="text-2xl font-bold text-coffee-dark mb-3">Dukungan Lokal</h3>
+              <p class="text-coffee-light">Kami berkomitmen menggunakan biji kopi terbaik dari petani Indonesia.</p>
+            </div>
+
+            <div class="bg-white p-8 rounded-xl shadow-2xl border-b-8 border-coffee-accent hover:bg-coffee-bg transition duration-300">
+              <div class="text-5xl text-coffee-accent mb-4">🧪</div>
+              <h3 class="text-2xl font-bold text-coffee-dark mb-3">Keahlian Menyeduh</h3>
+              <p class="text-coffee-light">Barista kami adalah seniman yang memastikan rasa yang konsisten di setiap cangkir.</p>
+            </div>
+
+            <div class="bg-white p-8 rounded-xl shadow-2xl border-b-8 border-coffee-accent hover:bg-coffee-bg transition duration-300">
+              <div class="text-5xl text-coffee-accent mb-4">👥</div>
+              <h3 class="text-2xl font-bold text-coffee-dark mb-3">Ruang Komunitas</h3>
+              <p class="text-coffee-light">Warkop51 adalah tempat berkumpul yang nyaman dan ramah bagi semua.</p>
+            </div>
+          </div>
+        </section>
+
+        <div class="border-t border-coffee-light/30 my-10"></div>
+
+        <!-- 3. CTA -->
+        <section class="py-12 text-center bg-coffee-dark rounded-2xl p-10 shadow-2xl">
+          <h2 class="text-3xl font-bold text-coffee-accent mb-4">Rasakan Sendiri Perbedaannya!</h2>
+          <p class="text-coffee-light max-w-2xl mx-auto mb-6">
+            Kunjungi kedai kami dan rasakan pengalaman kopi terbaik bersama tim Warkop51.
+          </p>
+          <a href="kontak.html" class="inline-block bg-coffee-accent hover:bg-yellow-600 text-coffee-dark text-lg font-bold py-3 px-8 rounded-full shadow-lg transition duration-300 transform hover:scale-105">
+            Temukan Lokasi Kami →
+          </a>
+        </section>
+      </div>
+    </main>
+
+    <!-- ===== Footer ===== -->
+    <footer class="bg-coffee-dark text-coffee-light text-center p-6 mt-12 shadow-inner">
+      <p>© 2025 Warkop51. Dibuat dengan cinta dan secangkir kopi hangat.</p>
+    </footer>
+  </div>
+
+  <!-- ===== Script ===== -->
+  <script>
+    function alert(message) {
+      console.log("NOTIFIKASI:", message);
+    }
+
+    // Toggle menu mobile
+    function setupMobileMenu() {
+      const menuButton = document.getElementById('menu-toggle');
+      const mobileMenu = document.getElementById('mobile-menu');
+
+      if (menuButton && mobileMenu) {
+        menuButton.addEventListener('click', () => {
+          const expanded = menuButton.getAttribute('aria-expanded') === 'true';
+          menuButton.setAttribute('aria-expanded', String(!expanded));
+          mobileMenu.classList.toggle('hidden');
+        });
+      }
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      setupMobileMenu();
+
+      // Dummy logout
+      const handleLogout = () => {
+        alert('Anda telah keluar.');
+      };
+
+      const logoutDesktop = document.getElementById('logout-button');
+      const logoutMobile = document.getElementById('logout-button-mobile');
+
+      if (logoutDesktop) logoutDesktop.addEventListener('click', handleLogout);
+      if (logoutMobile) logoutMobile.addEventListener('click', handleLogout);
+
+      // Dummy cart count
+      document.getElementById('cart-count').textContent = Math.floor(Math.random() * 5);
+    });
+  </script>
+</body>
+</html>

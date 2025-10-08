@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Warkop51 - Struk Pesanan</title> 
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="asset/script.js"></script>
+    <link rel="stylesheet" href="asset/receipt.css">
+</head>
+<body class="bg-coffee-bg font-sans">
+    
+    <div id="main-app">
+        <nav class="fixed-navbar fixed top-0 left-0 w-full bg-coffee-dark shadow-xl z-50">
+            </nav>
+
+        <main class="pt-24 pb-12">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="bg-white p-8 md:p-12 rounded-xl shadow-xl max-w-2xl mx-auto">
+                    
+                    <h2 class="text-4xl font-bold text-coffee-dark mb-8 text-center" id="main-title">Pesanan Berhasil! 🎉</h2>
+
+                    <div id="receipt-container">
+                        <div class="text-center p-10">Memuat data pesanan...</div>
+                    </div>
+
+                    <a href="menu.html" id="back-to-menu-link" class="mt-8 w-full block text-center text-sm text-coffee-light hover:text-coffee-dark transition border-t pt-4">
+                        ← Pesan Menu Lain
+                    </a>
+                </div>
+            </div>
+        </main>
+
+        <footer class="bg-coffee-dark text-coffee-light text-center p-6 mt-12 shadow-inner">
+            <p>© 2025 Warkop51. Dibuat dengan cinta dan secangkir kopi hangat.</p>
+        </footer>
+    </div>
+    
+    <script>
+        // --- UTILITY FUNCTIONS ---
+        function notify(message) {
+            // ... (Fungsi notifikasi) ...
+        }
+
+        function formatRupiah(number) {
+            return new Intl.NumberFormat('id-ID', {
+                style: 'currency',
+                currency: 'IDR',
+                minimumFractionDigits: 0
+            }).format(number);
+        }
+
+        /**
+         * FUNGSI KHUSUS: Merender tampilan struk
+         * @param {Object} orderData - Data pesanan lengkap
+         */
+        function renderReceipt(orderData) {
+            const receiptContainer = document.getElementById('receipt-container');
+            
+            const itemsHtml = orderData.items.map(item => `
+                <div class="flex justify-between border-b border-dashed border-gray-300 py-1 text-sm">
+                    <span class="w-1/2 text-left">${item.quantity}x ${item.name}</span>
+                    <span class="w-1/2 text-right">${formatRupiah(item.price * item.quantity)}</span>
+                </div>
+            `).join('');
+
+            const receiptHtml = `
+                <div class="bg-white p-6 sm:p-8 rounded-xl border-4 border-coffee-accent shadow-2xl max-w-sm mx-auto font-mono">
+                    <h1 class="text-3xl font-bold text-center text-coffee-dark mb-2">Warkop51</h1>
+                    <p class="text-center text-xs mb-6 text-gray-600">Terima kasih atas pesanan Anda!</p>
+
+                    <div class="border-t border-b border-gray-400 py-3 mb-4 space-y-1 text-sm">
+                        <div class="flex justify-between">
+                            <span class="font-semibold">No. Pesanan:</span>
+                            <span id="order-id" class="font-bold text-coffee-accent">${orderData.orderId}</span>
+                        </div>
+                        <div class="flex justify-between">
+                            <span class="font-semibold">Nama Pemesan:</span>
+                            <span class="font-medium">${orderData.pemesan}</span>
+                        </div>
+                        <div class="flex justify-between">
+                            <span class="font-semibold">Tanggal/Waktu:</span>
+                            <span class="font-medium">${new Date(orderData.timestamp).toLocaleDateString('id-ID')} @ ${new Date(orderData.timestamp).toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' })}</span>
+                        </div>
+                    </div>
+
+                    <h3 class="font-bold text-lg text-coffee-dark border-b pb-2 mb-2">Detail Item:</h3>
+                    <div class="space-y-1 mb-4">
+                        ${itemsHtml}
+                    </div>
+
+                    <div class="border-t border-b-2 border-coffee-dark py-3 mb-4 space-y-1 text-base">
+                        <div class="flex justify-between font-semibold">
+                            <span>Subtotal:</span>
+                            <span>${formatRupiah(orderData.totalHarga)}</span>
+                        </div>
+                        <div class="flex justify-between text-lg font-bold text-green-600 pt-2">
+                            <span>TOTAL BAYAR:</span>
+                            <span>${formatRupiah(orderData.totalHarga)}</span>
+                        </div>
+                    </div>
+
+                    <div class="text-center text-sm space-y-1">
+                        <p class="font-medium">Metode Pembayaran: <span class="text-coffee-accent font-bold">${orderData.metodePembayaran}</span></p>
+                        <p class="text-gray-500">Silakan tunjukkan struk ini di kasir.</p>
+                        <p class="text-xs italic mt-4 border-t pt-2">Kopi hangat, hati senang.</p>
+                    </div>
+                </div>
+
+                <div class="no-print mt-6 text-center space-y-4">
+                    <button id="copy-order-id-btn" class="bg-coffee-dark hover:bg-coffee-dark/90 text-white font-bold py-2 px-4 rounded-lg shadow-md transition duration-200">
+                        Salin No. Pesanan (${orderData.orderId})
+                    </button>
+                    <button id="print-receipt-btn" class="bg-coffee-accent hover:bg-coffee-accent/90 text-white font-bold py-2 px-4 rounded-lg shadow-md transition duration-200 ml-2">
+                        Cetak Struk
+                    </button>
+                </div>
+            `;
+            
+            receiptContainer.innerHTML = receiptHtml;
+
+            // Attach listeners for print and copy
+            document.getElementById('print-receipt-btn').addEventListener('click', () => window.print());
+            document.getElementById('copy-order-id-btn').addEventListener('click', async () => {
+                try {
+                    await navigator.clipboard.writeText(orderData.orderId);
+                    // notify('Nomor Pesanan berhasil disalin!'); // Notifikasi tidak didefinisikan di sini
+                } catch (err) {
+                    console.error('Gagal menyalin:', err);
+                }
+            });
+        }
+
+        // --- INISIALISASI HALAMAN STRUK ---
+        document.addEventListener('DOMContentLoaded', () => {
+            console.log('Warkop51 Receipt Page Loaded');
+            
+            const rawOrderData = sessionStorage.getItem('last_order_data');
+
+            if (rawOrderData) {
+                try {
+                    const orderData = JSON.parse(rawOrderData);
+                    renderReceipt(orderData);
+                    // Hapus data dari sessionStorage agar struk hanya tampil sekali
+                    sessionStorage.removeItem('last_order_data'); 
+                } catch (e) {
+                    document.getElementById('receipt-container').innerHTML = '<p class="text-red-500 text-center">Terjadi kesalahan memuat data pesanan.</p>';
+                }
+            } else {
+                document.getElementById('main-title').textContent = 'Tidak Ada Pesanan Ditemukan';
+                document.getElementById('receipt-container').innerHTML = '<p class="text-gray-600 text-center">Silakan kembali ke menu untuk memesan.</p>';
+            }
+        });
+    </script>
+</body>
+</html>

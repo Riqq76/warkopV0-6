@@ -1,0 +1,19 @@
+.hero-section {
+      background-image: url('https://placehold.co/1200x800/4b3832/f5f5f5?text=Warkop51+Suasana+Nyaman');
+      background-size: cover;
+      background-position: center;
+      position: relative;
+    }
+
+    .hero-section::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.45);
+      z-index: 10;
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 20;
+    }

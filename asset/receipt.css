@@ -1,0 +1,30 @@
+ /* Definisi Warna Tailwind Kustom */
+        .bg-coffee-bg { background-color: #f7f3f0; } 
+        .bg-coffee-dark { background-color: #4b3832; } 
+        .text-coffee-dark { color: #4b3832; } 
+        .text-coffee-light { color: #d0c3bf; } 
+        .text-coffee-accent { color: #ff9f1c; } 
+        .border-coffee-accent { border-color: #ff9f1c; }
+
+        /* Styling untuk mode cetak */
+        @media print {
+            body * {
+                visibility: hidden;
+            }
+            #receipt-container, #receipt-container * {
+                visibility: visible;
+            }
+            #receipt-container {
+                position: absolute;
+                left: 0;
+                top: 0;
+                width: 100%;
+                margin: 0;
+                padding: 0;
+                box-shadow: none !important;
+                border: none !important;
+            }
+            .fixed-navbar, footer, .no-print, #back-to-menu-link {
+                display: none;
+            }
+        }
